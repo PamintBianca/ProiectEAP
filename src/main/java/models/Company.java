@@ -7,8 +7,15 @@ public class Company {
     private String parola;
     private String nume;
 
+
+
     public Company(int idcompany, String email, String parola, String nume) {
         this.idcompany = idcompany;
+        this.email = email;
+        this.parola = parola;
+        this.nume = nume;
+    }
+    public Company( String email, String parola, String nume) {
         this.email = email;
         this.parola = parola;
         this.nume = nume;

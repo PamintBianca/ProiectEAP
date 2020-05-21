@@ -4,11 +4,22 @@ public class Bike {
     private int idbike;
     private int idcompany;
     private boolean isAvailable;
+    private String companyName;
+
+    public Bike(){};
 
     public Bike(int idbike, int idcompany, boolean isAvailable) {
         this.idbike = idbike;
         this.idcompany = idcompany;
         this.isAvailable = isAvailable;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public int getIdbike() {

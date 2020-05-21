@@ -15,9 +15,9 @@ import java.util.List;
 public class BikesRepository {
 
     public static void save(Bike bike) throws SQLException {
-        String sql = "INSERT INTO bike (idbike, idcompany, isAvailable) VALUES(?, ?,? )";
+        String sql = "INSERT INTO bikes (idbikes, idcompany, isAvailable) VALUES(?, ?,? )";
         PreparedStatement preparedStatement = DbConnection.getConnection().prepareStatement(sql);
-        preparedStatement.setInt(1, bike.getIdbike());
+        preparedStatement.setInt(1, count()+1);
         preparedStatement.setInt(2, bike.getIdcompany());
         preparedStatement.setBoolean(3, bike.isAvailable());
 
@@ -26,7 +26,7 @@ public class BikesRepository {
 
     public static List<Bike> findAvailable() throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
-        String sql = "SELECT * FROM bike WHERE isAvailable = 1";
+        String sql = "SELECT * FROM bikes WHERE isAvailable = 1";
 
         ResultSet resultSet = statement.executeQuery(sql);
 
@@ -34,7 +34,7 @@ public class BikesRepository {
 
         while (resultSet.next()) {
             Bike b = new Bike(
-                    resultSet.getInt("idbike"),
+                    resultSet.getInt("idbikes"),
                     resultSet.getInt("idcompany"),
                     resultSet.getBoolean("isAvailable")
 
@@ -44,5 +44,35 @@ public class BikesRepository {
         }
 
         return bikes;
+    }
+    public static List<Bike> findAll() throws SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+        String sql = "SELECT * FROM bikes ";
+
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        List<Bike> bikes = new ArrayList<>();
+
+        while (resultSet.next()) {
+            Bike b = new Bike(
+                    resultSet.getInt("idbikes"),
+                    resultSet.getInt("idcompany"),
+                    resultSet.getBoolean("isAvailable")
+
+
+            );
+            b.setCompanyName(CompanyRepository.findById(resultSet.getInt("idcompany")).getNume());
+            bikes.add(b);
+        }
+
+        return bikes;
+    }
+    public static int count() throws  SQLException {
+        Statement statement = DbConnection.getConnection().createStatement();
+        String sql = "SELECT * FROM bikes";
+        ResultSet resultSet = statement.executeQuery(sql);
+        int count = 0;
+        while (resultSet.next()) count++;
+        return count;
     }
 }
